@@ -1,0 +1,35 @@
+const express = require("express");
+const path = require("path");
+const exhbs = reuire("express-handlebars")
+
+// Inicializations
+const app = express();
+
+// Settings
+app.set("port", process.env.PORT || 4000);
+app.set("views", path.join(__dirname, "views"));
+app.engine(".hbs", exhbs({
+    defaultLayout : "main",
+    layaoutsDir: path.join(app.get("views"),"layots"),
+    partialsDir: path.join(app.get("views"),"partials"),
+    extname: ".hbs"
+}));
+app.set("view engine", ".hbs");
+
+// Middlewares
+app.use(express.urlencoded({ extended: false }));
+
+// Global variables
+app.use(express.static(path.join(__dirname, "public")));
+
+
+// Routes
+app.get("/", (req, res) => {
+    // res.send("Hello world!")
+    res.render("index");
+})
+
+
+// Static Files
+
+module.exports = app;
